@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://antagon.com/AntagonInternalServicesTypes" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://antagon.com/AntagonInternalServices/" name="AntagonInternalServices" targetNamespace="http://antagon.com/AntagonInternalServices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema>
+      <xsd:import schemaLocation="AntagonInternalServicesTypes.xsd" namespace="http://antagon.com/AntagonInternalServicesTypes" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="handleCandidateEmailResponse">
+    <wsdl:part name="parameters" element="xsd1:handleCandidateEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateCandidateCvWindowResponse">
+    <wsdl:part name="parameters" element="xsd1:updateCandidateCvWindowResponse" />
+  </wsdl:message>
+  <wsdl:message name="enquiryEmailAddressResponse">
+    <wsdl:part name="parameters" element="xsd1:enquiryEmailAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="removeEmailAddressFromJunkListResponse">
+    <wsdl:part name="parameters" element="xsd1:removeEmailAddressFromJunkListResponse" />
+  </wsdl:message>
+  <wsdl:message name="enquiryEmailAddressRequest">
+    <wsdl:part name="parameters" element="xsd1:enquiryEmailAddress" />
+  </wsdl:message>
+  <wsdl:message name="addEmailAddressToJunkListResponse">
+    <wsdl:part name="parameters" element="xsd1:addEmailAddressToJunkListResponse" />
+  </wsdl:message>
+  <wsdl:message name="handleCandidateEmailRequest">
+    <wsdl:part name="parameters" element="xsd1:handleCandidateEmailRequest" />
+  </wsdl:message>
+  <wsdl:message name="removeEmailAddressFromJunkListRequest">
+    <wsdl:part name="parameters" element="xsd1:removeEmailAddressFromJunkList" />
+  </wsdl:message>
+  <wsdl:message name="updateCandidateCvWindowRequest">
+    <wsdl:part name="parameters" element="xsd1:updateCandidateCvWindow" />
+  </wsdl:message>
+  <wsdl:message name="addEmailAddressToJunkListRequest">
+    <wsdl:part name="parameters" element="xsd1:addEmailAddressToJunkList" />
+  </wsdl:message>
+  <wsdl:portType name="AntagonInternalServices">
+    <wsdl:operation name="updateCandidateCvWindow">
+      <wsdl:input message="tns:updateCandidateCvWindowRequest" />
+      <wsdl:output message="tns:updateCandidateCvWindowResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="handleCandidateEmail">
+      <wsdl:input message="tns:handleCandidateEmailRequest" />
+      <wsdl:output message="tns:handleCandidateEmailResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addEmailAddressToJunkList">
+      <wsdl:input message="tns:addEmailAddressToJunkListRequest" />
+      <wsdl:output message="tns:addEmailAddressToJunkListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="removeEmailAddressFromJunkList">
+      <wsdl:input message="tns:removeEmailAddressFromJunkListRequest" />
+      <wsdl:output message="tns:removeEmailAddressFromJunkListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="enquiryEmailAddress">
+      <wsdl:input message="tns:enquiryEmailAddressRequest" />
+      <wsdl:output message="tns:enquiryEmailAddressResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AntagonInternalServicesSOAP" type="tns:AntagonInternalServices">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="updateCandidateCvWindow">
+      <soap:operation soapAction="http://antagon.com/AntagonInternalServices/updateCandidateCvWindow" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="handleCandidateEmail">
+      <soap:operation soapAction="http://antagon.com/AntagonInternalServices/handleCandidateEmail" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addEmailAddressToJunkList">
+      <soap:operation soapAction="http://antagon.com/AntagonInternalServices/addEmailAddressToJunkList" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeEmailAddressFromJunkList">
+      <soap:operation soapAction="http://antagon.com/AntagonInternalServices/removeEmailAddressFromJunkList" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="enquiryEmailAddress">
+      <soap:operation soapAction="http://antagon.com/AntagonInternalServices/enquiryEmailAddress" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AntagonInternalServices">
+    <wsdl:port name="AntagonInternalServicesSOAP" binding="tns:AntagonInternalServicesSOAP">
+      <soap:address location="http://www.example.org/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

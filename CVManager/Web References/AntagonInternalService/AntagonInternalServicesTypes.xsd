@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:tns="http://antagon.com/AntagonInternalServicesTypes" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://antagon.com/AntagonInternalServicesTypes" xmlns="http://www.w3.org/2001/XMLSchema">
+  <complexType name="updateCandidateCvWindowRequestType">
+    <sequence>
+      <element name="candidateId" type="int" />
+      <element name="cvWindowContent" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="updateCandidateCvWindowResponseType">
+    <sequence>
+      <element name="statusCode" type="int" />
+      <element name="statusMessage" type="string" />
+    </sequence>
+  </complexType>
+  <element name="updateCandidateCvWindow" type="tns:updateCandidateCvWindowRequestType" />
+  <element name="updateCandidateCvWindowResponse" type="tns:updateCandidateCvWindowResponseType" />
+  <element name="handleCandidateEmailRequest" type="tns:HandleCandidateEmailRequestType" />
+  <element name="handleCandidateEmailResponse" type="tns:HandleCandidateEmailResponseType" />
+  <element name="addEmailAddressToJunkList" type="tns:AddEmailAddressToJunkListRequestType" />
+  <element name="addEmailAddressToJunkListResponse" type="tns:AddEmailAddressToJunkListResponseType" />
+  <element name="removeEmailAddressFromJunkList" type="tns:removeEmailAddressFromJunkListRequestType" />
+  <element name="removeEmailAddressFromJunkListResponse" type="tns:RemoveEmailAddressFromJunkListResponseType" />
+  <element name="enquiryEmailAddress" type="tns:EnquiryEmailAddressRequestType" />
+  <element name="enquiryEmailAddressResponse" type="tns:EnquiryEmailAddressResponseType" />
+  <complexType name="AddEmailAddressToJunkListRequestType">
+    <sequence>
+      <element name="currentUser" type="tns:User" />
+      <element name="emailAddress" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="AddEmailAddressToJunkListResponseType">
+    <sequence>
+      <element name="statusCode" type="int" />
+      <element name="statusMessage" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="EnquiryEmailAddressRequestType">
+    <sequence>
+      <element name="currentUser" type="tns:User" />
+      <element name="emailAddress" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="EnquiryEmailAddressResponseType">
+    <sequence>
+      <element name="statusCode" type="int" />
+      <element name="statusMessage" type="string" />
+      <element name="isCandidate" type="boolean" />
+      <element name="isClient" type="boolean" />
+      <element name="isJunk" type="boolean" />
+      <element name="isJobBoard" type="boolean" />
+      <element minOccurs="0" name="candidate" type="tns:Candidate" />
+    </sequence>
+  </complexType>
+  <complexType name="HandleCandidateEmailRequestType">
+    <sequence>
+      <element name="currentUser" type="tns:User" />
+      <element name="senderEmailAddress" type="string" />
+      <element name="senderName" type="string" />
+      <element minOccurs="0" maxOccurs="unbounded" name="attachments" type="tns:EmailAttachment" />
+      <element name="emailBody" type="string" />
+      <element name="emailSubject" type="string" />
+      <element name="candidateStatus">
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="EXISTING" />
+            <enumeration value="NON_EXISTING" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="handlingMode">
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="NEW" />
+            <enumeration value="EDIT" />
+            <enumeration value="CopyAllAndEmail" />
+            <enumeration value="CopyAll" />
+            <enumeration value="CopyCV" />
+            <enumeration value="CopyCVAndEmail" />
+          </restriction>
+        </simpleType>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="HandleCandidateEmailResponseType">
+    <sequence>
+      <element name="statusCode" type="int" />
+      <element name="statusMessage" type="string" />
+      <element name="duplicationStatus" type="tns:DuplicationStatus" />
+      <element name="handlindStatus" type="tns:HandlingStatus" />
+      <element name="parsingStatus" type="tns:ParsingStatus" />
+    </sequence>
+  </complexType>
+  <complexType name="removeEmailAddressFromJunkListRequestType">
+    <sequence>
+      <element name="currentUser" type="tns:User" />
+      <element name="emailAddress" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="RemoveEmailAddressFromJunkListResponseType">
+    <sequence>
+      <element name="statusCode" type="int" />
+      <element name="statusMessage" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="User">
+    <sequence>
+      <element name="emailAddress" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="Candidate">
+    <sequence>
+      <element minOccurs="0" name="id" type="long" />
+      <element minOccurs="0" name="firstName" type="string" />
+      <element minOccurs="0" name="lastName" type="string" />
+      <element minOccurs="0" maxOccurs="unbounded" name="contact" type="string" />
+      <element minOccurs="0" name="address" type="string" />
+      <element minOccurs="0" name="postalCode" type="string" />
+      <element minOccurs="0" name="city" type="string" />
+      <element minOccurs="0" name="country" type="string" />
+      <element minOccurs="0" name="dateOfBirth" type="dateTime" />
+      <element minOccurs="0" name="nationality" type="string" />
+      <element minOccurs="0" name="lastEditedBy" type="string" />
+      <element minOccurs="0" name="lastEditedAt" type="dateTime" />
+      <element minOccurs="0" name="editURL" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="EmailAttachment">
+    <sequence>
+      <element name="attachment" type="base64Binary" />
+      <element name="isPrimaryAttachment" type="boolean" />
+      <element name="attachmentType">
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="CV" />
+            <enumeration value="CERTIFICATE" />
+            <enumeration value="PASSPORT" />
+            <enumeration value="ID" />
+            <enumeration value="OTHER" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="fileName" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="DuplicationStatus">
+    <sequence>
+      <element name="isDuplicate" type="boolean" />
+      <element minOccurs="0" maxOccurs="unbounded" name="duplicateCandidatesEditURLs" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="HandlingStatus">
+    <sequence>
+      <element name="candidateCreated" type="boolean" />
+      <element minOccurs="0" name="candidateEditURL" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="ParsingStatus">
+    <sequence>
+      <element minOccurs="0" name="candidate" type="tns:Candidate" />
+      <element minOccurs="0" name="candidateEditURL" type="string" />
+    </sequence>
+  </complexType>
+</schema>
