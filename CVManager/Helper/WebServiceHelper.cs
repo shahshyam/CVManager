@@ -43,26 +43,52 @@ namespace CVManager.Helper
             var candidate = new AntagonInternalService.Candidate();
            
             bool isCandidate = false, isClient = false, isJunk = false, isJobBoard = false;
-            int statusCode = 0;
-
-            statusCode = _antagonWs.enquiryEmailAddress(GetUser(), "senthilbtech2002@gmail.com",//OutlookHelper.GetSenderEmailAddress(),
-                out statusMessage, out isCandidate, out isClient, out isJunk, out isJobBoard, out candidate);
-
-            if (statusCode == 1)
+            int statusCode = 0; statusMessage = string.Empty;
+            try
             {
-                //ErrorBox eb = new ErrorBox(statusMessage);
-                //eb.ShowDialog();
-                return candidate;
+                string emailAddress = OutlookHelper.GetSenderEmailAddress(); //"senthilbtech2002@gmail.com";
+                statusCode = _antagonWs.enquiryEmailAddress(GetUser(emailAddress), emailAddress,
+                    out statusMessage, out isCandidate, out isClient, out isJunk, out isJobBoard, out candidate);
+
+                if (statusCode == 1)
+                {
+                    //ErrorBox eb = new ErrorBox(statusMessage);
+                    //eb.ShowDialog();
+                    return candidate;
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
             return candidate;
             
         }
-        private AntagonInternalService.User GetUser()
+        public bool IsCandidateAvailable(string emailAddress)
+        {
+            var candidate = new AntagonInternalService.Candidate();
+
+            bool isCandidate = false, isClient = false, isJunk = false, isJobBoard = false;            
+            int statusCode = 0; string statusMessage = null;
+            try
+            {
+                statusCode = _antagonWs.enquiryEmailAddress(GetUser(emailAddress), emailAddress,
+                    out statusMessage, out isCandidate, out isClient, out isJunk, out isJobBoard, out candidate);
+
+                return statusCode == 0 && isCandidate;
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return false;
+        }
+        private AntagonInternalService.User GetUser(string emailAddress)
         {
             try
             {
                 var aUser = new AntagonInternalService.User();
-                aUser.emailAddress = "senthilbtech2002@gmail.com";//OutlookHelper.GetSenderEmailAddress();
+                aUser.emailAddress = emailAddress;
                 return aUser;
             }
             catch { return null; }

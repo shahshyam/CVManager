@@ -8,6 +8,7 @@ using Office = Microsoft.Office.Core;
 using CVManager.CustomControl;
 using CVManager.Helper;
 using CVManager.Options;
+using CVManager.CustomEvents;
 
 namespace CVManager
 {
@@ -15,11 +16,13 @@ namespace CVManager
     {
         private CandidateUserControl candidateControl;
         private Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
-        private Outlook.Explorer explorer;
+        public Outlook.Explorer explorer;
         private string EntryId;
+        public CandidateHandler CandidateHandler { get; set; }
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             var settngOption = ProcessData.GetData();
+            CandidateHandler = new CandidateHandler();
             explorer = this.Application.ActiveExplorer();
             if (explorer != null)
             {
@@ -38,7 +41,8 @@ namespace CVManager
                     EntryId = mailItem.EntryID;
                     if (CustomTaskPanes.Count > 0)
                     {
-                        candidateControl.LoadCandidateData();
+                        CandidateHandler.OnEmailItemChanged(EntryId);
+                        //candidateControl.LoadCandidateData();
                     }
                 }
             }
@@ -56,10 +60,10 @@ namespace CVManager
             }
             if (CustomTaskPanes.Count == 0)
             {
-                myCustomTaskPane = this.CustomTaskPanes.Add(candidateControl, "CV Manager For Outlook", this.Application.ActiveWindow());
+                myCustomTaskPane = this.CustomTaskPanes.Add(candidateControl, "CV Manager", this.Application.ActiveWindow());
                 myCustomTaskPane.Width = 400;
             }
-            candidateControl.LoadCandidateData();
+            CandidateHandler.OnEmailItemChanged(EntryId);
             myCustomTaskPane.Visible = true;
         }
 

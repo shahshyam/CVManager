@@ -8,8 +8,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace CVManager
 {
@@ -73,12 +75,38 @@ namespace CVManager
             if (IsValidateConfigUrl())
                 Globals.ThisAddIn.ProcessSideBarPanel();
         }
-        public void SearchCandidate(Office.IRibbonControl control)
+        public async void SearchCandidate(Office.IRibbonControl control)
         {
             if (IsValidateConfigUrl())
             {
-                var mailItem = Globals.ThisAddIn.Application.ActiveExplorer().Selection[1];
-                OutlookHelper.SetCustomProperty(mailItem, "Yes");
+               await Task.Run(()=>
+                {
+                    Outlook.Folder folder = Globals.ThisAddIn.explorer.CurrentFolder as Outlook.Folder;
+                    Outlook.Items items = folder.Items;
+                    int itemsCount = items.Count;
+                    for (int i = 1; i <= itemsCount; i++)
+                    {
+                        try
+                        {
+                            var item = items[i];
+                            if (item is Outlook.MailItem)
+                            {
+                                Outlook.MailItem mailItem = item as Outlook.MailItem;
+                                string emailAddress = OutlookHelper.GetEmailAddress(item);
+                                if (WebServiceHelper.Instance.IsCandidateAvailable(emailAddress))
+                                    OutlookHelper.SetCustomProperty(mailItem, "CV");
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+                });
+               
+               
             }
         }
         #endregion

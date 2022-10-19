@@ -175,6 +175,7 @@
     <Compile Include="CustomControl\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomEvents\CandidateHandler.cs" />
     <Compile Include="CVManagerConstant.cs" />
     <Compile Include="Helper\OutlookHelper.cs" />
     <Compile Include="Helper\WebServiceHelper.cs" />
@@ -277,6 +278,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ViewCV.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -11,10 +11,10 @@ namespace CVManager.Helper
     class OutlookHelper
     {
         const string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
-        private static string _culumnName = "Customer";
+        private static string _culumnName = "CVM";
         public static void SetCustomProperty(Outlook.MailItem mailItem, string values = "")
         {
-            Outlook.Folder folder = Globals.ThisAddIn.Application.ActiveExplorer().CurrentFolder as Outlook.Folder;
+            Outlook.Folder folder = Globals.ThisAddIn.explorer.CurrentFolder as Outlook.Folder;
             try
             {
                 Microsoft.Office.Interop.Outlook.UserProperty up = mailItem.UserProperties[_culumnName];
@@ -24,26 +24,23 @@ namespace CVManager.Helper
                     //Add UserProperty to PostItem 
                     mailItem.UserProperties.Add(_culumnName,
                         Outlook.OlUserPropertyType.olText,
-                        false, Outlook.OlFormatEnumeration.olFormatEnumText);
+                        false, Type.Missing);
                 }
                 mailItem.UserProperties[_culumnName].Value = values;
-                mailItem.Save();
+                mailItem.Save();                
                 var folderprop = folder.UserDefinedProperties[_culumnName];
+                Outlook.TableView CurView = ((Outlook.TableView)folder.CurrentView);
                 if (folderprop == null)
                 {
                     folder.UserDefinedProperties.Add(_culumnName,
                            Outlook.OlUserPropertyType.olText,
                            Type.Missing, Type.Missing);
-
-                    Outlook.TableView CurView = ((Outlook.TableView)folder.CurrentView);
-                    var viewField = CurView.ViewFields.Add(_culumnName);
-                    var columnFormat = viewField.ColumnFormat;
-                    columnFormat.Align = Outlook.OlAlign.olAlignLeft;
-                    //columnFormat.Width = 10;                    
-                    columnFormat.Label = _culumnName;
-                    CurView.Apply();
-                    CurView.Save();
+                    
+                    CurView.ViewFields.Add(_culumnName);                   
                 }
+                CurView.Apply();
+                CurView.Save();
+
             }
             catch (Exception ex)
             {
