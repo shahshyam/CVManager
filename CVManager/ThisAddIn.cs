@@ -52,7 +52,7 @@ namespace CVManager
         {
             return new RibbonMailExplorer();
         }
-        public void ProcessSideBarPanel()
+        public void ProcessSideBarPanel(bool isVisible)
         {
             if (candidateControl == null)
             {
@@ -63,8 +63,9 @@ namespace CVManager
                 myCustomTaskPane = this.CustomTaskPanes.Add(candidateControl, "CV Manager", this.Application.ActiveWindow());
                 myCustomTaskPane.Width = 400;
             }
-            CandidateHandler.OnEmailItemChanged(EntryId);
-            myCustomTaskPane.Visible = true;
+            if (isVisible)
+                CandidateHandler.OnEmailItemChanged(EntryId);
+            myCustomTaskPane.Visible = isVisible;
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

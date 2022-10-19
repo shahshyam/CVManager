@@ -40,7 +40,7 @@ namespace CVManager.CustomControl
                 labelID.Text = candidate.id.ToString();
                 string fullname = string.Format("{0} {1}", candidate.firstName, candidate.lastName);
                 labelFullName.Text = fullname;
-                labelContact.Text = string.Join(",", candidate.contact);
+                labelContact.Text = string.Join("\n", candidate.contact);
                 var ageyear = DateTime.Now.Year - candidate.dateOfBirth.Year;
                 labelDob.Text = string.Format("{0} - ({1})", candidate.dateOfBirth.ToString("dd/MM/yyy"), ageyear);
                 labelNationality.Text = candidate.nationality;
@@ -60,42 +60,42 @@ namespace CVManager.CustomControl
 
         private void buttonID_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("ID: {0}", labelID.Text));
+            CopyData(labelID.Text);
         }
 
         private void buttonFullName_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("Name: {0}", labelFullName.Text));
+            CopyData(labelFullName.Text);
         }
 
         private void buttonCantact_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("Contact: {0}", labelContact.Text));
+            CopyData( labelContact.Text);
         }
 
         private void buttonBirthday_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("DOB: {0}", labelDob.Text));
+            CopyData(labelDob.Text);
         }
 
         private void buttonNationality_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("Nationality: {0}", labelNationality.Text));
+            CopyData(labelNationality.Text);
         }
 
         private void buttonLastEdit_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("Last Edited: {0}", labelLeB.Text));
+            CopyData(labelLeB.Text);
         }
 
         private void buttonEditUrl_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("URL: {0}", labelEUrl.Text));
+            CopyData(labelEUrl.Text);
         }
 
         private void buttonDetail_Click(object sender, EventArgs e)
         {
-            CopyData(string.Format("File: {0}", labelDetail.Text));
+            CopyData(labelDetail.Text);
         }
         private void ReSetCandidateData()
         {

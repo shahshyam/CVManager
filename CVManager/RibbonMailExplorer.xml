@@ -6,7 +6,7 @@
         <group id="CVManager"
                label="CVManager">
           <button id="btnSetting" label="Setting" getImage="GetImages" onAction="GetSetting" size="large"/>
-          <button id="btnViewCV" label="View" getImage="GetImages" size="large" onAction="ShowCVPanel"/>
+          <toggleButton  id="btnViewCV" label="View" getPressed="GetPressItem" getImage="GetImages" size="large" onAction="ShowCVPanel"/>
           <button id="btnVerify" label="Check Emails" getImage="GetImages" size="large" onAction="SearchCandidate"/>
         </group>
       </tab>

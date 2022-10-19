@@ -19,7 +19,7 @@ namespace CVManager
     public class RibbonMailExplorer : Office.IRibbonExtensibility
     {
         private Office.IRibbonUI ribbon;
-
+        private bool isPressed;
         public RibbonMailExplorer()
         {
         }
@@ -70,43 +70,57 @@ namespace CVManager
         {
             new CustomControl.SettingForm().ShowDialog();
         }
-        public void ShowCVPanel(Office.IRibbonControl control)
+        public void ShowCVPanel(Office.IRibbonControl control,bool isPressed)
         {
+            this.isPressed = isPressed;
             if (IsValidateConfigUrl())
-                Globals.ThisAddIn.ProcessSideBarPanel();
+                Globals.ThisAddIn.ProcessSideBarPanel(this.isPressed);
         }
-        public async void SearchCandidate(Office.IRibbonControl control)
+        public bool GetPressItem(Office.IRibbonControl control)
+        {
+            return isPressed;
+        }
+        public  void SearchCandidate(Office.IRibbonControl control)
         {
             if (IsValidateConfigUrl())
             {
-               await Task.Run(()=>
-                {
+               //await Task.Run(()=>
+               // {
                     Outlook.Folder folder = Globals.ThisAddIn.explorer.CurrentFolder as Outlook.Folder;
                     Outlook.Items items = folder.Items;
                     int itemsCount = items.Count;
-                    for (int i = 1; i <= itemsCount; i++)
+                for (int i = 1; i <= itemsCount; i++)
+                {
+                    var item = items[i];
+                    try
                     {
-                        try
-                        {
-                            var item = items[i];
-                            if (item is Outlook.MailItem)
-                            {
-                                Outlook.MailItem mailItem = item as Outlook.MailItem;
-                                string emailAddress = OutlookHelper.GetEmailAddress(item);
-                                if (WebServiceHelper.Instance.IsCandidateAvailable(emailAddress))
-                                    OutlookHelper.SetCustomProperty(mailItem, "CV");
 
-                            }
-                        }
-                        catch (Exception ex)
+                        if (item is Outlook.MailItem)
                         {
+                            Outlook.MailItem mailItem = item as Outlook.MailItem;
+                            string emailAddress = OutlookHelper.GetEmailAddress(item);
+                            //if (WebServiceHelper.Instance.IsCandidateAvailable(emailAddress))
+                            OutlookHelper.SetCustomProperty(mailItem, "CV");
 
                         }
                     }
+                    catch (Exception ex)
+                    {
 
-                });
-               
-               
+                    }
+                    finally
+                    {
+                        OutlookHelper.ReleaseComObject(item);
+                    }
+                }
+
+
+                // });
+
+                if (folder != null)
+                {
+                    OutlookHelper.ReleaseComObject(folder);
+                }
             }
         }
         #endregion

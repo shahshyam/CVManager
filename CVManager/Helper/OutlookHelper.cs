@@ -40,7 +40,7 @@ namespace CVManager.Helper
                 }
                 CurView.Apply();
                 CurView.Save();
-
+                ReleaseComObject(folder);
             }
             catch (Exception ex)
             {
