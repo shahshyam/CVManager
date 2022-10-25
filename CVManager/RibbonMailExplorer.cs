@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
@@ -20,6 +21,7 @@ namespace CVManager
     {
         private Office.IRibbonUI ribbon;
         private bool isPressed;
+        private bool isAlreadyProcessingEmail = false;
         public RibbonMailExplorer()
         {
         }
@@ -80,46 +82,61 @@ namespace CVManager
         {
             return isPressed;
         }
-        public  void SearchCandidate(Office.IRibbonControl control)
+        public string GetAppVersion(Office.IRibbonControl control)
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            return string.Format("Ver: {0}.{1}.{2}", version.Major , version.Minor , version.Build);
+        }
+        public async void SearchCandidate(Office.IRibbonControl control)
         {
             if (IsValidateConfigUrl())
             {
-               //await Task.Run(()=>
-               // {
-                    Outlook.Folder folder = Globals.ThisAddIn.explorer.CurrentFolder as Outlook.Folder;
-                    Outlook.Items items = folder.Items;
-                    int itemsCount = items.Count;
-                for (int i = 1; i <= itemsCount; i++)
+                var dialog = MessageBox.Show("Email Processing will take long time.\nDo you want to process it?", CVManagerConstant.APPNAME, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (dialog == DialogResult.OK)
                 {
-                    var item = items[i];
-                    try
+                    isAlreadyProcessingEmail = true;
+                    if (Globals.ThisAddIn.Application.Version.Contains("14"))
                     {
-
-                        if (item is Outlook.MailItem)
+                        ProcessFolderItems();
+                    }
+                    else
+                    {
+                        await Task.Run(() =>
                         {
-                            Outlook.MailItem mailItem = item as Outlook.MailItem;
-                            string emailAddress = OutlookHelper.GetEmailAddress(item);
-                            //if (WebServiceHelper.Instance.IsCandidateAvailable(emailAddress))
-                            OutlookHelper.SetCustomProperty(mailItem, "CV");
-
-                        }
+                            ProcessFolderItems();
+                        });
                     }
-                    catch (Exception ex)
+                    isAlreadyProcessingEmail = false;
+                    MessageBox.Show("Email(s) validation completed", CVManagerConstant.APPNAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+        private void ProcessFolderItems()
+        {
+            Outlook.Folder folder = Globals.ThisAddIn.explorer.CurrentFolder as Outlook.Folder;
+            Outlook.Items items = folder.Items;
+            int itemsCount = items.Count;
+            for (int i = 1; i <= itemsCount; i++)
+            {
+                var item = items[i];
+                try
+                {
+                    if (item is Outlook.MailItem)
                     {
-
-                    }
-                    finally
-                    {
-                        OutlookHelper.ReleaseComObject(item);
+                        Outlook.MailItem mailItem = item as Outlook.MailItem;
+                        string emailAddress = OutlookHelper.GetEmailAddress(mailItem);
+                        if (WebServiceHelper.Instance.IsCandidateAvailable(emailAddress))
+                            OutlookHelper.SetUserDefineProperty(mailItem, DateTime.Now.ToString("dd/MM/yyy"));
+                        
                     }
                 }
-
-
-                // });
-
-                if (folder != null)
+                catch (Exception ex)
                 {
-                    OutlookHelper.ReleaseComObject(folder);
+
+                }
+                finally
+                {
+                    OutlookHelper.ReleaseComObject(item);
                 }
             }
         }

@@ -53,6 +53,7 @@
             this.buttonEditUrl = new System.Windows.Forms.Button();
             this.buttonNationality = new System.Windows.Forms.Button();
             this.buttonLastEdit = new System.Windows.Forms.Button();
+            this.labelError = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,6 +87,7 @@
             this.tableLayoutPanel1.Controls.Add(this.buttonEditUrl, 2, 7);
             this.tableLayoutPanel1.Controls.Add(this.buttonNationality, 2, 5);
             this.tableLayoutPanel1.Controls.Add(this.buttonLastEdit, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.labelError, 0, 9);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -276,7 +278,7 @@
             // 
             this.buttonID.BackgroundImage = global::CVManager.Properties.Resources.copy;
             this.buttonID.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonID.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonID.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonID.FlatAppearance.BorderSize = 0;
             this.buttonID.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonID.Location = new System.Drawing.Point(367, 23);
@@ -290,7 +292,7 @@
             // 
             this.buttonFullName.BackgroundImage = global::CVManager.Properties.Resources.copy;
             this.buttonFullName.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonFullName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonFullName.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonFullName.FlatAppearance.BorderSize = 0;
             this.buttonFullName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonFullName.Location = new System.Drawing.Point(367, 66);
@@ -304,7 +306,7 @@
             // 
             this.buttonCantact.BackgroundImage = global::CVManager.Properties.Resources.copy;
             this.buttonCantact.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonCantact.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonCantact.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonCantact.FlatAppearance.BorderSize = 0;
             this.buttonCantact.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonCantact.Location = new System.Drawing.Point(367, 109);
@@ -318,7 +320,7 @@
             // 
             this.buttonBirthday.BackgroundImage = global::CVManager.Properties.Resources.copy;
             this.buttonBirthday.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonBirthday.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonBirthday.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonBirthday.FlatAppearance.BorderSize = 0;
             this.buttonBirthday.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBirthday.Location = new System.Drawing.Point(367, 152);
@@ -332,7 +334,7 @@
             // 
             this.buttonDetail.BackgroundImage = global::CVManager.Properties.Resources.copy;
             this.buttonDetail.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonDetail.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonDetail.FlatAppearance.BorderSize = 0;
             this.buttonDetail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDetail.Location = new System.Drawing.Point(367, 356);
@@ -346,7 +348,7 @@
             // 
             this.buttonEditUrl.BackgroundImage = global::CVManager.Properties.Resources.copy;
             this.buttonEditUrl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonEditUrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEditUrl.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonEditUrl.FlatAppearance.BorderSize = 0;
             this.buttonEditUrl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonEditUrl.Location = new System.Drawing.Point(367, 313);
@@ -360,7 +362,7 @@
             // 
             this.buttonNationality.BackgroundImage = global::CVManager.Properties.Resources.copy;
             this.buttonNationality.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonNationality.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonNationality.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonNationality.FlatAppearance.BorderSize = 0;
             this.buttonNationality.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonNationality.Location = new System.Drawing.Point(367, 195);
@@ -383,6 +385,18 @@
             this.buttonLastEdit.TabIndex = 27;
             this.buttonLastEdit.UseVisualStyleBackColor = true;
             this.buttonLastEdit.Click += new System.EventHandler(this.buttonLastEdit_Click);
+            // 
+            // labelError
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.labelError, 2);
+            this.labelError.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelError.ForeColor = System.Drawing.Color.Red;
+            this.labelError.Location = new System.Drawing.Point(3, 396);
+            this.labelError.Name = "labelError";
+            this.labelError.Size = new System.Drawing.Size(358, 119);
+            this.labelError.TabIndex = 28;
+            this.labelError.Text = "label5";
+            this.labelError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CandidateUserControl
             // 
@@ -426,5 +440,6 @@
         private System.Windows.Forms.Button buttonEditUrl;
         private System.Windows.Forms.Button buttonNationality;
         private System.Windows.Forms.Button buttonLastEdit;
+        private System.Windows.Forms.Label labelError;
     }
 }

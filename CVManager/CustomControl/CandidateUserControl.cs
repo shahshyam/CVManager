@@ -37,12 +37,21 @@ namespace CVManager.CustomControl
             var candidate = WebServiceHelper.Instance.EnquiryEmailAddressCall(out statusMessage);
             if (candidate.id > 0)
             {
-                labelID.Text = candidate.id.ToString();
+                labelID.Text = candidate.id.ToString("D5");
                 string fullname = string.Format("{0} {1}", candidate.firstName, candidate.lastName);
                 labelFullName.Text = fullname;
                 labelContact.Text = string.Join("\n", candidate.contact);
-                var ageyear = DateTime.Now.Year - candidate.dateOfBirth.Year;
-                labelDob.Text = string.Format("{0} - ({1})", candidate.dateOfBirth.ToString("dd/MM/yyy"), ageyear);
+                if (DateTime.MinValue == candidate.dateOfBirth)
+                {
+                    labelDob.Text = string.Empty;
+                    labelDob.Tag = "0";
+                }
+                else
+                {
+                    var ageyear = DateTime.Now.Year - candidate.dateOfBirth.Year;
+                    labelDob.Tag = candidate.dateOfBirth.ToString("dd/MM/yyy");
+                    labelDob.Text = string.Format("{0} - ({1})", candidate.dateOfBirth.ToString("dd/MM/yyy"), ageyear);
+                }
                 labelNationality.Text = candidate.nationality;
                 labelLeB.Text = string.Format("{0}\n{1}\n{2}", candidate.lastEditedBy.ToString(), candidate.lastEditedAt.ToString("dd/MM/yyy"), candidate.lastEditedAt.ToString("HH:MM"));
                 // labelLeAt.Text = candidate.lastEditedAt.ToString();
@@ -54,7 +63,9 @@ namespace CVManager.CustomControl
             }
             else
             {
-                MessageBox.Show("Candidate does not exists", CVManagerConstant.APPNAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                labelError.Text = "Candidate does not exists";
+                labelError.Visible = true;
+                //MessageBox.Show("Candidate does not exists", CVManagerConstant.APPNAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -75,7 +86,7 @@ namespace CVManager.CustomControl
 
         private void buttonBirthday_Click(object sender, EventArgs e)
         {
-            CopyData(labelDob.Text);
+            CopyData((string)labelDob.Tag);
         }
 
         private void buttonNationality_Click(object sender, EventArgs e)
@@ -107,6 +118,7 @@ namespace CVManager.CustomControl
             labelLeB.Text = string.Empty;
             labelEUrl.Text = string.Empty;
             labelDetail.Text = string.Empty;
+            labelError.Visible = false;
         }
         private void CopyData(string data)
         {

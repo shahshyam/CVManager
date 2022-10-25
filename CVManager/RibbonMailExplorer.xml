@@ -8,6 +8,7 @@
           <button id="btnSetting" label="Setting" getImage="GetImages" onAction="GetSetting" size="large"/>
           <toggleButton  id="btnViewCV" label="View" getPressed="GetPressItem" getImage="GetImages" size="large" onAction="ShowCVPanel"/>
           <button id="btnVerify" label="Check Emails" getImage="GetImages" size="large" onAction="SearchCandidate"/>
+          <labelControl id="version" getLabel="GetAppVersion"/>
         </group>
       </tab>
     </tabs>

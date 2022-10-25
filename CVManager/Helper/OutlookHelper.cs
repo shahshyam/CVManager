@@ -12,7 +12,7 @@ namespace CVManager.Helper
     {
         const string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
         private static string _culumnName = "CVM";
-        public static void SetCustomProperty(Outlook.MailItem mailItem, string values = "")
+        public static void SetUserDefineProperty(Outlook.MailItem mailItem, string values = "")
         {
             Outlook.Folder folder = Globals.ThisAddIn.explorer.CurrentFolder as Outlook.Folder;
             try
@@ -35,12 +35,14 @@ namespace CVManager.Helper
                     folder.UserDefinedProperties.Add(_culumnName,
                            Outlook.OlUserPropertyType.olText,
                            Type.Missing, Type.Missing);
-                    
-                    CurView.ViewFields.Add(_culumnName);                   
+
+                    var fieldView = CurView.ViewFields.Add(_culumnName);
+                    var columnFormat = fieldView.ColumnFormat;
+                    columnFormat.Align = Outlook.OlAlign.olAlignCenter;
+                    columnFormat.Width = 30;
                 }
                 CurView.Apply();
-                CurView.Save();
-                ReleaseComObject(folder);
+                CurView.Save();               
             }
             catch (Exception ex)
             {
@@ -76,7 +78,7 @@ namespace CVManager.Helper
             }
             finally
             {
-                ReleaseComObject(mailItem);
+                //ReleaseComObject(mailItem);
             }
             return emailAddress;
         }
@@ -133,7 +135,7 @@ namespace CVManager.Helper
             }
             finally
             {
-                ReleaseComObject(mailItem);
+                //ReleaseComObject(mailItem);
             }
             return emailAddress;
         }
